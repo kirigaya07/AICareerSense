@@ -35,4 +35,26 @@ model User {
   bio        String? // Optional bio/description of the user.
   experience Int? // Optional field representing years of experience.
   skills     String[] // Array of skills that the user possesses.
+
+  //Relations
+  assessments Assessment[]
+}
+
+// Model definition for the "Assessment" table.
+// This table stores quiz assessments for users, including their scores, questions attempted, and improvement tips.
+model Assessment {
+  id String @id @default(cuid()) // Unique identifier (Primary Key) using a CUID (collision-resistant ID).
+
+  userId String // Foreign key referencing the User model.
+  user   User   @relation(fields: [userId], references: [id]) // Establishes a relation with the User model.
+
+  quizScore      Float // Stores the user's score in the quiz.
+  questions      Json[] // Stores an array of questions attempted, using JSON format.
+  category       String // Represents the category or type of assessment.
+  improvementTip String // Provides a personalized tip for improving performance.
+
+  createdAt DateTime @default(now()) // Automatically records the timestamp when the record is created.
+  updatedAt DateTime @updatedAt // Updates the timestamp whenever the record is modified.
+
+  @@index([userId]) // Creates an index on the "userId" field to optimize queries filtering by user.
 }
