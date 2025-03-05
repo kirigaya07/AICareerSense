@@ -26,7 +26,7 @@ model User {
 
   // Establishes a one-to-one relationship with the IndustryInsights model.
   // The "industry" field references the "industry" field in IndustryInsights.
-  industryInsights IndustryInsights? @relation(fields: [industry], references: [industry])
+  industryInsights IndustryInsight? @relation(fields: [industry], references: [industry])
 
   createdAt DateTime @default(now()) // Automatically sets the creation timestamp.
   updatedAt DateTime @updatedAt // Updates timestamp whenever the record is modified.
@@ -96,4 +96,49 @@ model CoverLetter {
   updatedAt DateTime @updatedAt // Updates the timestamp whenever the record is modified.
 
   @@index([userId]) // Creates an index on the "userId" field to optimize queries filtering by user.
+}
+
+// Model definition for the "IndustryInsight" table.
+// This table provides insights into various industries, including salary data, trends, and market conditions.
+model IndustryInsight {
+  id String @id @default(cuid()) // Unique identifier (Primary Key) using a CUID.
+
+  industry String @unique // Unique industry name (e.g., "Software Development", "Finance").
+
+  users User[] // Establishes a one-to-many relationship with the User model.
+
+  // Salary-related data for different roles within the industry.
+  salaryRanges Json[] // Stores an array of salary objects with fields: role (string), min (float), max (float), median (float), location (optional string).
+
+  // Industry growth and demand insights.
+  growthRate  Float // Represents the projected growth rate of the industry.
+  demandLevel DemandLevel // Enum indicating demand level (HIGH, MEDIUM, LOW).
+  topSkills   String[] // List of key skills in high demand for this industry.
+
+  // Market conditions and outlook.
+  marketOutlook MarketOutlook // Enum indicating overall industry outlook ("Positive", "Neutral", "Negative").
+  keyTrends     String[] // Array of key trends affecting the industry.
+
+  // Recommended skills for professionals looking to enter or grow in the industry.
+  reccomendedSkills String[] // Suggested skills relevant to the industry.
+
+  // Timestamps for data updates.
+  lastUpdated DateTime @default(now()) // Timestamp when the record was last updated.
+  nextUpdate  DateTime @updatedAt // Timestamp scheduled for the next update.
+
+  @@index([industry]) // Index on the "industry" field to optimize queries.
+}
+
+// Enum representing demand levels in an industry.
+enum DemandLevel {
+  HIGH
+  MEDIUM
+  LOW
+}
+
+// Enum representing the overall market outlook of an industry.
+enum MarketOutlook {
+  POSITIVE
+  NEUTRAL
+  NEGATIVE
 }
