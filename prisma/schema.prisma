@@ -68,7 +68,8 @@ model Resume {
   userId String @unique // Ensures each user can have only one resume.
   user   User   @relation(fields: [userId], references: [id]) // Establishes a one-to-one relationship with the User model.
 
-  content  String // Stores the resume content in text format.
+  content String @db.Text // Stores the resume content in text format.
+
   atsScore Float // Stores the ATS (Applicant Tracking System) score for resume evaluation.
   feedback String // Provides feedback or suggestions for resume improvement.
 
