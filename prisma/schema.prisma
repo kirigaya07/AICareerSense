@@ -34,10 +34,11 @@ model User {
   // Additional profile-related fields:
   bio        String? // Optional bio/description of the user.
   experience Int? // Optional field representing years of experience.
-  skills     String[] // Array of skills that the user possesses.
 
   //Relations
-  assessments Assessment[]
+  skills      String[] // Array of skills that the user possesses.
+  assessments Assessment[] // Array of assessments taken by the user.
+  resume      Resume? // One-to-one relation with the Resume model.
 }
 
 // Model definition for the "Assessment" table.
@@ -57,4 +58,20 @@ model Assessment {
   updatedAt DateTime @updatedAt // Updates the timestamp whenever the record is modified.
 
   @@index([userId]) // Creates an index on the "userId" field to optimize queries filtering by user.
+}
+
+// Model definition for the "Resume" table.
+// This table stores users' resumes along with their ATS score and feedback.
+model Resume {
+  id String @id @default(cuid()) // Unique identifier (Primary Key) using a CUID (collision-resistant ID).
+
+  userId String @unique // Ensures each user can have only one resume.
+  user   User   @relation(fields: [userId], references: [id]) // Establishes a one-to-one relationship with the User model.
+
+  content  String // Stores the resume content in text format.
+  atsScore Float // Stores the ATS (Applicant Tracking System) score for resume evaluation.
+  feedback String // Provides feedback or suggestions for resume improvement.
+
+  createdAt DateTime @default(now()) // Automatically records the timestamp when the resume is created.
+  updatedAt DateTime @updatedAt // Updates the timestamp whenever the resume record is modified.
 }
