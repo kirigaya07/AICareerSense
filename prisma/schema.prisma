@@ -39,6 +39,7 @@ model User {
   skills      String[] // Array of skills that the user possesses.
   assessments Assessment[] // Array of assessments taken by the user.
   resume      Resume? // One-to-one relation with the Resume model.
+  coverLetter CoverLetter[] //Array of cover letters written by the user
 }
 
 // Model definition for the "Assessment" table.
@@ -75,4 +76,22 @@ model Resume {
 
   createdAt DateTime @default(now()) // Automatically records the timestamp when the resume is created.
   updatedAt DateTime @updatedAt // Updates the timestamp whenever the resume record is modified.
+}
+
+// Model definition for the "CoverLetter" table.
+// This table stores cover letters written by users for job applications.
+
+model CoverLetter {
+  id String @id @default(cuid()) // Unique identifier (Primary Key) using a CUID (collision-resistant ID).
+
+  userId String // Foreign key referencing the User model.
+  user   User   @relation(fields: [userId], references: [id]) // Establishes a many-to-one relationship with the User model.
+
+  content        String // Stores the cover letter content in Markdown format.
+  jobDescription String? // Optional field containing the job description.
+  companyName    String // Stores the name of the company the cover letter is addressed to.
+  jobTitle       String // Stores the job title for which the cover letter is written.
+
+  createdAt DateTime @default(now()) // Automatically records the timestamp when the cover letter is created.
+  updatedAt DateTime @updatedAt // Updates the timestamp whenever the record is modified.
 }
