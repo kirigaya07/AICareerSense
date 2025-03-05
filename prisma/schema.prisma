@@ -94,4 +94,6 @@ model CoverLetter {
 
   createdAt DateTime @default(now()) // Automatically records the timestamp when the cover letter is created.
   updatedAt DateTime @updatedAt // Updates the timestamp whenever the record is modified.
+
+  @@index([userId]) // Creates an index on the "userId" field to optimize queries filtering by user.
 }
