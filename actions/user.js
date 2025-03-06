@@ -2,6 +2,7 @@
 
 import { db } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
+import { generateAIInsights } from "./dashboard";
 
 /**
  * Updates the user's profile information and ensures the industry insight record exists.
@@ -42,17 +43,13 @@ export async function updateUser(data) {
 
         // If no industry insight exists, create a new one with default values.
         if (!industryInsight) {
-          industryInsight = await tx.industryInsight.create({
+          const insights = await generateAIInsights(data.industry);
+
+          industryInsight = await db.industryInsight.create({
             data: {
               industry: data.industry,
-              salaryRanges: [], // Default empty salary ranges.
-              growthRate: 0, // Default growth rate.
-              demandLevel: "MEDIUM", // Default demand level.
-              topSkills: [], // Default empty top skills list.
-              marketOutlook: "NEUTRAL", // Default market outlook.
-              keyTrends: [], // Default empty key trends list.
-              reccomendedSkills: [], // Default empty recommended skills list.
-              nextUpdate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // Next update scheduled for one week later.
+              ...insights,
+              nextUpdate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
             },
           });
         }
