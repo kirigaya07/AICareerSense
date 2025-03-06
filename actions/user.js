@@ -83,3 +83,42 @@ export async function updateUser(data) {
     throw new Error("Failed to update profile"); // Throw a user-friendly error message.
   }
 }
+
+/**
+ * Retrieves the onboarding status of the currently authenticated user.
+ * The user is considered onboarded if they have an assigned industry.
+ *
+ * @throws {Error} If the user is not authenticated, not found, or if the database query fails.
+ * @returns {Promise<{ isOnboarded: boolean }>} An object indicating whether the user is onboarded.
+ */
+export async function getUserOnboardingStatus() {
+  // Authenticate the user and get their Clerk user ID.
+  const { userId } = await auth();
+  if (!userId) throw new Error("Unauthorized"); // Throw an error if authentication fails.
+
+  // Fetch the user from the database to check if they exist.
+  const user = await db.user.findUnique({
+    where: { clerkUserId: userId },
+  });
+
+  if (!user) throw new Error("User not found"); // Throw an error if the user does not exist.
+
+  try {
+    // Retrieve only the "industry" field to determine onboarding status.
+    const userIndustry = await db.user.findUnique({
+      where: {
+        clerkUserId: userId,
+      },
+      select: {
+        industry: true, // Select only the industry field.
+      },
+    });
+
+    return {
+      isOnboarded: !!userIndustry?.industry, // Convert industry presence to a boolean value.
+    };
+  } catch (error) {
+    console.error("Error checking onboarding status:", error);
+    throw new Error("Failed to check onboarding status"); // Provide a user-friendly error message.
+  }
+}
