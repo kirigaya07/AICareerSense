@@ -47,12 +47,12 @@ export async function updateUser(data) {
               industry: data.industry,
               salaryRanges: [], // Default empty salary ranges.
               growthRate: 0, // Default growth rate.
-              demandLevel: "Medium", // Default demand level.
+              demandLevel: "MEDIUM", // Default demand level.
               topSkills: [], // Default empty top skills list.
-              marketOutlook: "Neutral", // Default market outlook.
+              marketOutlook: "NEUTRAL", // Default market outlook.
               keyTrends: [], // Default empty key trends list.
-              recommendedSkills: [], // Default empty recommended skills list.
-              nextUpdatee: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // Next update scheduled for one week later.
+              reccomendedSkills: [], // Default empty recommended skills list.
+              nextUpdate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // Next update scheduled for one week later.
             },
           });
         }
@@ -77,7 +77,7 @@ export async function updateUser(data) {
       }
     );
 
-    return result; // Return the final transaction result.
+    return { success: true, ...result }; // Return the final transaction result.
   } catch (error) {
     console.error("Error updating user and industry", error.message);
     throw new Error("Failed to update profile"); // Throw a user-friendly error message.
