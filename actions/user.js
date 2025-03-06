@@ -1,0 +1,85 @@
+"use server";
+
+import { db } from "@/lib/prisma";
+import { auth } from "@clerk/nextjs/dist/types/server";
+
+/**
+ * Updates the user's profile information and ensures the industry insight record exists.
+ * Uses a database transaction to maintain consistency between user updates and industry insights.
+ *
+ * @param {Object} data - The updated user profile data.
+ * @param {string} data.industry - The user's selected industry.
+ * @param {number} data.experience - The user's years of experience.
+ * @param {string} data.bio - The user's bio.
+ * @param {string[]} data.skills - The user's skills.
+ * @throws {Error} If the user is not authenticated, not found, or if the update fails.
+ * @returns {Promise<{ updateUser: Object, industryInsight: Object }>} Updated user and industry insight records.
+ */
+export async function updateUser(data) {
+  // Authenticate the user and get their ID.
+  const { userId } = await auth();
+  if (!userId) throw new Error("Unauthorized"); // Throw an error if the user is not authenticated.
+
+  // Fetch the user from the database using their Clerk user ID.
+  const user = await db.user.findUnique({
+    where: {
+      clerkUserId: userId,
+    },
+  });
+
+  if (!user) throw new Error("User not found"); // Throw an error if the user does not exist.
+
+  try {
+    // Perform database operations within a transaction to ensure data consistency.
+    const result = await db.$transaction(
+      async (tx) => {
+        // Check if an industry insight record already exists for the given industry.
+        let industryInsight = await tx.industryInsight.findUnique({
+          where: {
+            industry: data.industry,
+          },
+        });
+
+        // If no industry insight exists, create a new one with default values.
+        if (!industryInsight) {
+          industryInsight = await tx.industryInsight.create({
+            data: {
+              industry: data.industry,
+              salaryRanges: [], // Default empty salary ranges.
+              growthRate: 0, // Default growth rate.
+              demandLevel: "Medium", // Default demand level.
+              topSkills: [], // Default empty top skills list.
+              marketOutlook: "Neutral", // Default market outlook.
+              keyTrends: [], // Default empty key trends list.
+              recommendedSkills: [], // Default empty recommended skills list.
+              nextUpdatee: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // Next update scheduled for one week later.
+            },
+          });
+        }
+
+        // Update the user's profile with the provided data.
+        const updateUser = await tx.user.update({
+          where: {
+            id: user.id,
+          },
+          data: {
+            industry: data.industry,
+            experience: data.experience,
+            bio: data.bio,
+            skills: data.skills,
+          },
+        });
+
+        return { updateUser, industryInsight }; // Return the updated user and industry insight data.
+      },
+      {
+        timeout: 10000, // Set a transaction timeout of 10 seconds.
+      }
+    );
+
+    return result; // Return the final transaction result.
+  } catch (error) {
+    console.error("Error updating user and industry", error.message);
+    throw new Error("Failed to update profile"); // Throw a user-friendly error message.
+  }
+}
