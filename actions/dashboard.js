@@ -24,7 +24,7 @@ export const generateAIInsights = async (industry) => {
             "topSkills": ["skill1", "skill2"],
             "marketOutlook": "POSITIVE" | "NEUTRAL" | "NEGATIVE",
             "keyTrends": ["trend1", "trend2"],
-            "reccomendedSkills": ["skill1", "skill2"]
+            "recommendedSkills": ["skill1", "skill2"]
           }
           
           IMPORTANT: Return ONLY the JSON. No additional text, notes, or markdown formatting.

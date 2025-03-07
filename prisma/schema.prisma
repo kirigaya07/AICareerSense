@@ -26,7 +26,7 @@ model User {
 
   // Establishes a one-to-one relationship with the IndustryInsights model.
   // The "industry" field references the "industry" field in IndustryInsights.
-  industryInsights IndustryInsight? @relation(fields: [industry], references: [industry])
+  industryInsight IndustryInsight? @relation(fields: [industry], references: [industry])
 
   createdAt DateTime @default(now()) // Automatically sets the creation timestamp.
   updatedAt DateTime @updatedAt // Updates timestamp whenever the record is modified.
@@ -120,7 +120,7 @@ model IndustryInsight {
   keyTrends     String[] // Array of key trends affecting the industry.
 
   // Recommended skills for professionals looking to enter or grow in the industry.
-  reccomendedSkills String[] // Suggested skills relevant to the industry.
+  recommendedSkills String[] // Suggested skills relevant to the industry.
 
   // Timestamps for data updates.
   lastUpdated DateTime @default(now()) // Timestamp when the record was last updated.
