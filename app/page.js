@@ -168,17 +168,36 @@ export default function Home() {
           </div>
 
           <div className="max-w-3xl mx-auto">
-            <Accordion type="single" collapsible className="w-full">
+            <Accordion type="single" collapsible className="w-full space-y-4">
               {faqs.map((faq, index) => (
-                <AccordionItem key={index} value={`item-${index}`}>
-                  <AccordionTrigger className="text-left">
-                    {faq.question}
+                <AccordionItem
+                  key={index}
+                  value={`item-${index}`}
+                  className="rounded-xl border border-muted-foreground/30 shadow-sm overflow-hidden transition-all duration-300 hover:shadow-lg"
+                >
+                  <AccordionTrigger className="text-left flex justify-between items-center p-5 text-lg font-semibold transition-all hover:text-primary group">
+                    <span>{faq.question}</span>
                   </AccordionTrigger>
-                  <AccordionContent>{faq.answer}</AccordionContent>
+                  <AccordionContent className="px-5 py-3 text-muted-foreground text-md leading-relaxed bg-muted/30 border-t border-muted-foreground/20">
+                    {faq.answer}
+                  </AccordionContent>
                 </AccordionItem>
               ))}
             </Accordion>
           </div>
+        </div>
+
+        {/* Subtle CTA */}
+        <div className="text-center mt-16">
+          <p className="text-muted-foreground/80 text-sm">
+            Can&apos;t find what you&apos;re looking for?
+            <Link
+              href="/contact"
+              className="text-primary font-medium ml-1 hover:underline"
+            >
+              Contact our support
+            </Link>
+          </p>
         </div>
       </section>
 
@@ -191,7 +210,11 @@ export default function Home() {
             </h2>
             <p className="mx-auto max-w-[600px] text-primary-foreground/80 md:text-xl">
               Join thousands of professionals who are advancing their careers
-              with AI-powered guidance.
+              with{" "}
+              <span className="font-semibold text-primary-foreground">
+                {" "}
+                AI-powered guidance.
+              </span>
             </p>
             <Link href="/dashboard" passHref>
               <Button
