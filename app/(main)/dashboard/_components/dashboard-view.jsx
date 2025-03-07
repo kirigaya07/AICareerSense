@@ -16,6 +16,7 @@ import {
   TrendingUp,
   TrendingDown,
   Brain,
+  Lightbulb,
 } from "lucide-react";
 import { format, formatDistanceToNow } from "date-fns";
 import {
@@ -186,7 +187,8 @@ const DashboardView = ({ insights }) => {
       {/* Industry Trends */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <Card>
-          <CardHeader>
+          <CardHeader className="flex items-center space-x-3">
+            <TrendingUp className="w-6 h-6 text-primary" />
             <CardTitle>Key Industry Trends</CardTitle>
             <CardDescription>
               Current trends shaping the industry
@@ -205,9 +207,12 @@ const DashboardView = ({ insights }) => {
         </Card>
 
         <Card>
-          <CardHeader>
-            <CardTitle>Recommended Skills</CardTitle>
-            <CardDescription>Skills to consider developing</CardDescription>
+          <CardHeader className="flex items-center space-x-3">
+            <Lightbulb className="w-6 h-6 text-yellow-500" />
+            <div>
+              <CardTitle className="text-lg">Recommended Skills</CardTitle>
+              <CardDescription>Enhance your expertise</CardDescription>
+            </div>
           </CardHeader>
           <CardContent>
             <div className="flex flex-wrap gap-2">
