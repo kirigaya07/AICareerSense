@@ -14,24 +14,28 @@ const model = genAI.getGenerativeModel({
 export const generateAIInsights = async (industry) => {
   // Construct a structured prompt to generate industry-specific insights in JSON format
   const prompt = `
-          Analyze the current state of the ${industry} industry and provide insights in ONLY the following JSON format without any additional notes or explanations:
-          {
-            "salaryRanges": [
-              { "role": "string", "min": number, "max": number, "median": number, "location": "string" }
-            ],
-            "growthRate": number,
-            "demandLevel": "HIGH" | "MEDIUM" | "LOW",
-            "topSkills": ["skill1", "skill2"],
-            "marketOutlook": "POSITIVE" | "NEUTRAL" | "NEGATIVE",
-            "keyTrends": ["trend1", "trend2"],
-            "recommendedSkills": ["skill1", "skill2"]
-          }
-          
-          IMPORTANT: Return ONLY the JSON. No additional text, notes, or markdown formatting.
-          Include at least 5 common roles for salary ranges.
-          Growth rate should be a percentage.
-          Include at least 5 skills and trends.
-        `;
+  Analyze the current state of the ${industry} industry and provide a structured summary strictly in the following JSON format:
+  {
+    "salaryRanges": [
+      { "role": "string", "min": number, "max": number, "median": number, "location": "string" }
+    ],
+    "growthRate": number,
+    "demandLevel": "HIGH" | "MEDIUM" | "LOW",
+    "topSkills": ["string", "string", "string", "string", "string"],
+    "marketOutlook": "POSITIVE" | "NEUTRAL" | "NEGATIVE",
+    "keyTrends": ["string", "string", "string", "string", "string"],
+    "recommendedSkills": ["string", "string", "string", "string", "string"]
+  }
+
+  Requirements:
+  - Respond with ONLY valid JSON. Do NOT include any explanations, comments, or formatting (no markdown, no code blocks).
+  - Ensure "salaryRanges" contains AT LEAST 5 commonly found roles in this industry.
+  - "growthRate" should be a number representing a percentage (e.g., 7.2).
+  - Each of "topSkills", "keyTrends", and "recommendedSkills" must contain AT LEAST 5 entries.
+  - Ensure all string values are descriptive and realistic for the given industry.
+
+  Output only the JSON object as specified.
+`;
 
   // Generate content using the AI model
   const result = await model.generateContent(prompt);
