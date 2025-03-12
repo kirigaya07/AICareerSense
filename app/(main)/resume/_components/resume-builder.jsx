@@ -12,7 +12,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Download, Save } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
-import EntryForm from "./entry-form";
+import { EntryForm } from "./entry-form";
 
 const ResumeBuilder = (initialContent) => {
   const [activeTab, setActiveTab] = useState("edit");
