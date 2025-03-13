@@ -87,13 +87,6 @@ export function EntryForm({ type, entries, onChange }) {
     }
   }, [improvedContent, improveError, isImproving, setValue]);
 
-  useEffect(() => {
-    if (!isImproving) {
-      // Ensure button text updates correctly when not loading
-      toast.dismiss(); // Dismiss any loading toasts if applicable
-    }
-  }, [isImproving]);
-
   // Replace handleImproveDescription with this
   const handleImproveDescription = async () => {
     const description = watch("description");
@@ -278,4 +271,4 @@ export function EntryForm({ type, entries, onChange }) {
       )}
     </div>
   );
-}
+} 
