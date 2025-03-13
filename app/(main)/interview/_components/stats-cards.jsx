@@ -1,28 +1,23 @@
+import { useMemo } from "react";
 import { Brain, Target, Trophy } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function StatsCards({ assessments }) {
-  const getAverageScore = () => {
-    if (!assessments?.length) return 0;
-    const total = assessments.reduce(
-      (sum, assessment) => sum + assessment.quizScore,
-      0
-    );
+  // Memoized functions to improve performance
+  const averageScore = useMemo(() => {
+    if (!assessments?.length) return "0.0";
+    const total = assessments.reduce((sum, a) => sum + (a.quizScore || 0), 0);
     return (total / assessments.length).toFixed(1);
-  };
+  }, [assessments]);
 
-  const getLatestAssessment = () => {
-    if (!assessments?.length) return null;
-    return assessments[0];
-  };
+  const latestAssessment = useMemo(() => {
+    return assessments?.length ? assessments[assessments.length - 1] : null;
+  }, [assessments]);
 
-  const getTotalQuestions = () => {
+  const totalQuestions = useMemo(() => {
     if (!assessments?.length) return 0;
-    return assessments.reduce(
-      (sum, assessment) => sum + assessment.questions.length,
-      0
-    );
-  };
+    return assessments.reduce((sum, a) => sum + (a.questions?.length || 0), 0);
+  }, [assessments]);
 
   return (
     <div className="grid gap-4 md:grid-cols-3">
@@ -35,12 +30,8 @@ export default function StatsCards({ assessments }) {
           <Trophy className="h-5 w-5 text-yellow-500 animate-bounce" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold text-primary">
-            {getAverageScore()}%
-          </div>
-          <p className="text-xs text-muted-foreground">
-            Across all assessments
-          </p>
+          <div className="text-2xl font-bold text-primary">{averageScore}%</div>
+          <p className="text-xs text-muted-foreground">Across all assessments</p>
         </CardContent>
       </Card>
 
@@ -53,9 +44,7 @@ export default function StatsCards({ assessments }) {
           <Brain className="h-5 w-5 text-blue-500 animate-pulse" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold text-primary">
-            {getTotalQuestions()}
-          </div>
+          <div className="text-2xl font-bold text-primary">{totalQuestions}</div>
           <p className="text-xs text-muted-foreground">Total questions</p>
         </CardContent>
       </Card>
@@ -70,7 +59,10 @@ export default function StatsCards({ assessments }) {
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold text-primary">
-            {getLatestAssessment()?.quizScore.toFixed(1) || 0}%
+            {latestAssessment?.quizScore !== undefined
+              ? latestAssessment.quizScore.toFixed(1)
+              : "0"}
+            %
           </div>
           <p className="text-xs text-muted-foreground">Most recent quiz</p>
         </CardContent>
