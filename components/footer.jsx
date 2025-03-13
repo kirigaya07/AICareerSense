@@ -1,4 +1,4 @@
-import { FacebookIcon, GithubIcon, InstagramIcon, TwitterIcon } from 'lucide-react'
+import { FacebookIcon, GithubIcon, InstagramIcon, LinkedinIcon, MailIcon, TwitterIcon, YoutubeIcon } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 
@@ -28,17 +28,43 @@ const Footer = () => {
                 </div>
 
                 <div className="mt-6 flex justify-center space-x-4">
-                    <Link href="#" className="hover:text-blue-500 transition">
-                        <FacebookIcon className="h-5 w-5" />
+                    <Link
+                        href="https://www.linkedin.com/in/anmol-chandrakar/"
+                        className="hover:text-blue-600 transition"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <LinkedinIcon className="h-5 w-5" />
                     </Link>
-                    <Link href="#" className="hover:text-blue-400 transition">
+                    <Link
+                        href="https://x.com/kirigya75759"
+                        className="hover:text-blue-400 transition"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
                         <TwitterIcon className="h-5 w-5" />
                     </Link>
-                    <Link href="#" className="hover:text-gray-500 transition">
+                    <Link
+                        href="https://github.com/kirigaya07"
+                        className="hover:text-gray-500 transition"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
                         <GithubIcon className="h-5 w-5" />
                     </Link>
-                    <Link href="#" className="hover:text-pink-500 transition">
-                        <InstagramIcon className="h-5 w-5" />
+                    <Link
+                        href="https://www.youtube.com/@Hunter-h7"
+                        className="hover:text-red-500 transition"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <YoutubeIcon className="h-5 w-5" />
+                    </Link>
+                    <Link
+                        href="mailto:contactaspireai@gmail.com"
+                        className="hover:text-green-500 transition"
+                    >
+                        <MailIcon className="h-5 w-5" />
                     </Link>
                 </div>
 
