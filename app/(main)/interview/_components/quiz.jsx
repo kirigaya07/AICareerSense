@@ -15,13 +15,15 @@ import { BarLoader } from "react-spinners";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
-import { Loader2 } from "lucide-react";
+import { Loader2, ArrowRight } from "lucide-react";
 import QuizResult from "./quiz-result";
 
 const Quiz = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState([]);
   const [showExplanation, setShowExplanation] = useState(false);
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [isFinishing, setIsFinishing] = useState(false);
 
   const {
     loading: generatingQuiz,
@@ -36,11 +38,10 @@ const Quiz = () => {
     setData: setResultData,
   } = useFetch(saveQuizResult);
 
-  console.log(resultData);
-
   useEffect(() => {
     if (quizData) {
       setAnswers(new Array(quizData.length).fill(null));
+      setIsGenerating(false);
     }
   }, [quizData]);
 
@@ -71,8 +72,10 @@ const Quiz = () => {
 
   const finishQuiz = async () => {
     const score = calculateScore();
+    setIsFinishing(true)
     try {
       await saveQuizResultFn(quizData, answers, score);
+      setIsFinishing(false)
       toast.success("Quiz completed!");
     } catch (error) {
       toast.error(error.message || "Failed to save quiz results");
@@ -83,13 +86,10 @@ const Quiz = () => {
     setCurrentQuestion(0);
     setAnswers([]);
     setShowExplanation(false);
+    setIsGenerating(true);
     generateQuizFn();
     setResultData(null);
   };
-
-  // if (generatingQuiz) {
-  //   return <BarLoader className="mt-4" width={"100%"} color="gray" />;
-  // }
 
   if (resultData) {
     return (
@@ -98,6 +98,11 @@ const Quiz = () => {
       </div>
     );
   }
+
+  if (isGenerating) {
+    return <BarLoader className="mt-4" width={"100%"} color="gray" />;
+  }
+
   if (!quizData) {
     return (
       <Card className="mx-2">
@@ -111,7 +116,7 @@ const Quiz = () => {
           </p>
         </CardContent>
         <CardFooter>
-          <Button onClick={generateQuizFn} className="w-full">
+          <Button onClick={startNewQuiz} className="w-full">
             Start Quiz
           </Button>
         </CardFooter>
@@ -165,10 +170,12 @@ const Quiz = () => {
           disabled={!answers[currentQuestion]}
           className="ml-auto"
         >
-          {savingResult && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-          {currentQuestion < quizData.length - 1
-            ? "Next Question"
-            : "Finish Quiz"}
+          {currentQuestion < quizData.length - 1 ? "Next" : "Finish Quiz"}
+          {isFinishing ? (
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          ) : (
+            <ArrowRight className="mr-2 h-4 w-4" />
+          )}
         </Button>
       </CardFooter>
     </Card>
