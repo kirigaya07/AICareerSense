@@ -57,28 +57,23 @@ const Header = async () => {
                   <ChevronDown className="h-4 w-4" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuItem>
-                  <Link href="/resume" className="flex items-center gap-2">
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem asChild>
+                  <Link href="/resume" className="flex items-center gap-2 w-full">
                     <FileText className="h-4 w-4" />
-                    <span className="hidden md:block"> Build Resume</span>
+                    <span className="block"> Build Resume</span>
                   </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem>
-                  {" "}
-                  <Link
-                    href="/ai-cover-letter"
-                    className="flex items-center gap-2"
-                  >
+                <DropdownMenuItem asChild>
+                  <Link href="/ai-cover-letter" className="flex items-center gap-2 w-full">
                     <PenBox className="h-4 w-4" />
-                    <span className="hidden md:block"> Cover Letter</span>
+                    <span className="block"> Cover Letter</span>
                   </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem>
-                  {" "}
-                  <Link href="/interview" className="flex items-center gap-2">
+                <DropdownMenuItem asChild>
+                  <Link href="/interview" className="flex items-center gap-2 w-full">
                     <GraduationCap className="h-4 w-4" />
-                    <span className="hidden md:block"> Interview Prep</span>
+                    <span className="block"> Interview Prep</span>
                   </Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
