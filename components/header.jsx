@@ -84,6 +84,9 @@ const Header = async () => {
             <SignInButton asChild>
               <Button variant="outline">Sign In</Button>
             </SignInButton>
+            <SignUpButton asChild>
+              <Button>Sign Up</Button>
+            </SignUpButton>
           </SignedOut>
 
           <SignedIn>
