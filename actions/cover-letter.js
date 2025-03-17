@@ -3,6 +3,7 @@
 import { db } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { trackAIUsage } from "@/lib/ai-helpers";
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
@@ -18,9 +19,8 @@ export async function generateCoverLetter(data) {
   if (!user) throw new Error("User not found");
 
   const prompt = `
-    Write a professional cover letter for a ${data.jobTitle} position at ${
-    data.companyName
-  }.
+    Write a professional cover letter for a ${data.jobTitle} position at ${data.companyName
+    }.
     
     About the candidate:
     - Industry: ${user.industry}
@@ -44,6 +44,12 @@ export async function generateCoverLetter(data) {
   `;
 
   try {
+    // Use trackAIUsage instead of direct consumeTokens
+    await trackAIUsage(
+      "cover_letter",
+      `Generated Cover Letter for ${data.companyName}`
+    );
+
     const result = await model.generateContent(prompt);
     const content = result.response.text().trim();
 
@@ -60,7 +66,7 @@ export async function generateCoverLetter(data) {
     return coverLetter;
   } catch (error) {
     console.error("Error generating cover letter:", error.message);
-    throw new Error("Failed to generate cover letter");
+    throw new Error(error.message || "Failed to generate cover letter");
   }
 }
 
