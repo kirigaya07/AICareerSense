@@ -24,6 +24,9 @@ model User {
   imageUrl    String? // Optional URL for the user's profile image.
   industry    String? // Optional field representing the user's industry.
 
+  // Token tracking
+  tokens Int @default(10000) // Default 10000 tokens for new users
+
   // Establishes a one-to-one relationship with the IndustryInsights model.
   // The "industry" field references the "industry" field in IndustryInsights.
   industryInsight IndustryInsight? @relation(fields: [industry], references: [industry])
@@ -40,6 +43,10 @@ model User {
   assessments Assessment[] // Array of assessments taken by the user.
   resume      Resume? // One-to-one relation with the Resume model.
   coverLetter CoverLetter[] //Array of cover letters written by the user
+
+  // Add relations for token tracking
+  tokenTransactions TokenTransaction[]
+  payments          Payment[]
 }
 
 // Model definition for the "Assessment" table.
@@ -141,4 +148,47 @@ enum MarketOutlook {
   POSITIVE
   NEUTRAL
   NEGATIVE
+}
+
+// Model for tracking token usage and purchases
+model TokenTransaction {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  amount      Int // Positive for additions, negative for consumption
+  description String // E.g., "Generated Cover Letter", "Token Purchase"
+  featureType String? // Optional field to categorize the transaction
+  createdAt   DateTime @default(now())
+
+  @@index([userId])
+}
+
+// Model for tracking payments
+model Payment {
+  id          String        @id @default(cuid())
+  userId      String
+  user        User          @relation(fields: [userId], references: [id])
+  amount      Float
+  currency    String        @default("INR")
+  razorpayId  String        @unique
+  status      PaymentStatus @default(PENDING)
+  tokensAdded Int
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@index([userId])
+}
+
+// Model for feature token costs
+model FeatureCost {
+  id          String  @id @default(cuid())
+  featureName String  @unique
+  tokenCost   Int
+  description String?
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
 }
