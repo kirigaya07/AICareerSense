@@ -10,6 +10,7 @@ import Link from "next/link";
 import { Button } from "./ui/button";
 import {
   ChevronDown,
+  CreditCard,
   FileText,
   GraduationCap,
   LayoutDashboard,
@@ -74,6 +75,12 @@ const Header = async () => {
                   <Link href="/interview" className="flex items-center gap-2 w-full">
                     <GraduationCap className="h-4 w-4" />
                     <span className="block"> Interview Prep</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/tokens" className="flex items-center gap-2 w-full">
+                    <CreditCard className="h-4 w-4" />
+                    <span className="block">Buy Tokens </span>
                   </Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
