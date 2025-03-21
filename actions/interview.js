@@ -26,7 +26,7 @@ export async function generateQuiz() {
     const prompt = `
     You are a technical interviewer for a ${user.industry} role.
     
-    Generate 2 challenging technical interview questions for a candidate ${user.skills?.length ? `with expertise in ${user.skills.join(", ")}` : ""}.
+    Generate 10 challenging technical interview questions for a candidate ${user.skills?.length ? `with expertise in ${user.skills.join(", ")}` : ""}.
     
     Requirements:
     - Each question must be multiple choice with exactly 4 options (A, B, C, D)
