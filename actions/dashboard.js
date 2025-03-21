@@ -2,19 +2,14 @@
 
 import { db } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
-import { GoogleGenerativeAI } from "@google/generative-ai";
-
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-
-// Initialize the AI model with the specified version
-const model = genAI.getGenerativeModel({
-  model: "gemini-1.5-flash",
-});
+import { generateWithDeepSeek } from "@/lib/deepseek";
 
 export const generateAIInsights = async (industry) => {
   // Construct a structured prompt to generate industry-specific insights in JSON format
   const prompt = `
-  Analyze the current state of the ${industry} industry and provide a structured summary strictly in the following JSON format:
+  TASK: Generate a detailed analysis of the current state of the ${industry} industry in JSON format.
+
+  OUTPUT FORMAT: Return ONLY the following JSON structure without ANY explanatory text, markdown formatting, or code block delimiters:
   {
     "salaryRanges": [
       { "role": "string", "min": number, "max": number, "median": number, "location": "string" }
@@ -27,26 +22,37 @@ export const generateAIInsights = async (industry) => {
     "recommendedSkills": ["string", "string", "string", "string", "string"]
   }
 
-  Requirements:
-  - Respond with ONLY valid JSON. Do NOT include any explanations, comments, or formatting (no markdown, no code blocks).
-  - Ensure "salaryRanges" contains AT LEAST 5 commonly found roles in this industry.
-  - "growthRate" should be a number representing a percentage (e.g., 7.2).
-  - Each of "topSkills", "keyTrends", and "recommendedSkills" must contain AT LEAST 5 entries.
-  - Ensure all string values are descriptive and realistic for the given industry.
+  REQUIREMENTS:
+  1. "salaryRanges" MUST contain EXACTLY 5 of the most in-demand roles in the ${industry} industry with realistic salary figures in USD
+  2. For each role, provide accurate min, max, and median salaries based on current market data
+  3. "growthRate" MUST be a numeric percentage value (e.g., 5.7 for 5.7% growth) reflecting annual industry growth
+  4. "demandLevel" MUST be one of: "HIGH", "MEDIUM", or "LOW" based on current hiring trends
+  5. "topSkills" MUST list EXACTLY 5 most valuable technical skills for ${industry} professionals today
+  6. "marketOutlook" MUST be one of: "POSITIVE", "NEUTRAL", or "NEGATIVE" based on comprehensive industry forecast
+  7. "keyTrends" MUST list EXACTLY 5 current technological or business trends shaping the ${industry}
+  8. "recommendedSkills" MUST list EXACTLY 5 emerging skills that will be valuable in the next 1-2 years
 
-  Output only the JSON object as specified.
+  VALIDATION:
+  - All strings must be properly quoted
+  - All arrays must have exactly 5 elements
+  - No comments, explanations, or formatting outside the JSON structure
+  - Numbers must be actual numbers without quotation marks
+  - Ensure all JSON syntax is valid with correct use of commas, brackets, and quotes
 `;
 
-  // Generate content using the AI model
-  const result = await model.generateContent(prompt);
-  const response = result.response;
-  const text = response.text();
+  try {
+    // Use the DeepSeek helper function instead
+    const text = await generateWithDeepSeek(prompt);
 
-  // Clean the response by removing any potential code block formatting
-  const cleanedText = text.replace(/```(?:json)?\n?/g, "").trim();
+    // Clean the response by removing any potential code block formatting
+    const cleanedText = text.replace(/```(?:json)?\n?/g, "").trim();
 
-  // Parse and return the structured JSON response
-  return JSON.parse(cleanedText);
+    // Parse and return the structured JSON response
+    return JSON.parse(cleanedText);
+  } catch (error) {
+    console.error("Error generating industry insights:", error);
+    throw new Error("Failed to generate industry insights: " + error.message);
+  }
 };
 
 export async function getIndustryInsights() {

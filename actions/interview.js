@@ -2,10 +2,11 @@
 
 import { db } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
-import { GoogleGenerativeAI } from "@google/generative-ai";
+// import { GoogleGenerativeAI } from "@google/generative-ai";
+import { generateWithDeepSeek } from "@/lib/deepseek";
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+// const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+// const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 export async function generateQuiz() {
   const { userId } = await auth();
@@ -23,13 +24,18 @@ export async function generateQuiz() {
 
   try {
     const prompt = `
-    Generate 10 technical interview questions for a ${user.industry
-      } professional${user.skills?.length ? ` with expertise in ${user.skills.join(", ")}` : ""
-      }.
+    You are a technical interviewer for a ${user.industry} role.
     
-    Each question should be multiple choice with 4 options.
+    Generate 2 challenging technical interview questions for a candidate ${user.skills?.length ? `with expertise in ${user.skills.join(", ")}` : ""}.
     
-    Return the response in this JSON format only, no additional text:
+    Requirements:
+    - Each question must be multiple choice with exactly 4 options (A, B, C, D)
+    - Include a mix of conceptual and practical questions
+    - Ensure questions test deep understanding, not just memorization
+    - Make sure there is only one correct answer per question
+    - Provide a detailed explanation for why the correct answer is right
+    
+    Return your response in this JSON format only, with no additional text:
     {
       "questions": [
         {
@@ -40,11 +46,9 @@ export async function generateQuiz() {
         }
       ]
     }
-  `;
+    `;
 
-    const result = await model.generateContent(prompt);
-    const response = result.response;
-    const text = response.text();
+    const text = await generateWithDeepSeek(prompt);
     const cleanedText = text.replace(/```(?:json)?\n?/g, "").trim();
     const quiz = JSON.parse(cleanedText);
 
@@ -77,7 +81,7 @@ export async function saveQuizResult(questions, answers, score) {
   const wrongAnswers = questionResults.filter((q) => !q.isCorrect);
 
   // Only generate improvement tips if there are wrong answers
-  let improvementTip = null;
+  let improvementTip = "";
   if (wrongAnswers.length > 0) {
     const wrongQuestionsText = wrongAnswers
       .map(
@@ -87,23 +91,30 @@ export async function saveQuizResult(questions, answers, score) {
       .join("\n\n");
 
     const improvementPrompt = `
-      The user got the following ${user.industry} technical interview questions wrong:
+      CONTEXT: The user is a ${user.industry} professional who answered these technical interview questions incorrectly:
 
       ${wrongQuestionsText}
 
-      Based on these mistakes, provide a concise, specific improvement tip.
-      Focus on the knowledge gaps revealed by these wrong answers.
-      Keep the response under 2 sentences and make it encouraging.
-      Don't explicitly mention the mistakes, instead focus on what to learn/practice.
+      TASK: Create a personalized learning recommendation based on these knowledge gaps.
+      
+      REQUIREMENTS:
+      1. Be specific and actionable - suggest exactly what topic to study
+      2. Be encouraging and positive in tone
+      3. Do NOT mention the specific mistakes or questions
+      4. Focus ONLY on what skills/concepts to improve
+      5. Maximum 2 sentences total
+      6. Start with a phrase like "Consider focusing on..." or "You might benefit from..."
+      
+      EXAMPLE FORMAT:
+      "Consider focusing on [specific technical concept from their industry]. Strengthening your knowledge in this area will help you tackle similar problems with confidence."
     `;
 
     try {
-      const result = await model.generateContent(improvementPrompt);
-      const response = result.response;
-      improvementTip = response.text().trim();
+      improvementTip = await generateWithDeepSeek(improvementPrompt);
     } catch (error) {
       console.error("Error generating improvement tip:", error);
-      // Continue without improvement tip if generation fails
+      // Provide a fallback improvement tip if generation fails
+      improvementTip = "Consider reviewing fundamental concepts in your field. Regular practice will help strengthen your knowledge.";
     }
   }
 

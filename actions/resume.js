@@ -2,11 +2,8 @@
 
 import { db } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { generateWithDeepSeek } from "@/lib/deepseek";
 import { revalidatePath } from "next/cache";
-
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 export async function saveResume(content) {
   const { userId } = await auth();
@@ -71,25 +68,27 @@ export async function improveWithAI({ current, type }) {
   if (!user) throw new Error("User not found");
 
   const prompt = `
-    As an expert resume writer, improve the following ${type} description for a ${user.industry} professional.
-    Make it more impactful, quantifiable, and aligned with industry standards.
-    Current content: "${current}"
-
-    Requirements:
-    1. Use action verbs
-    2. Include metrics and results where possible
-    3. Highlight relevant technical skills
-    4. Keep it concise but detailed
-    5. Focus on achievements over responsibilities
-    6. Use industry-specific keywords
+    TASK: Improve a resume ${type} description for a ${user.industry} professional.
     
-    Format the response as a single paragraph without any additional text or explanations.
+    CURRENT CONTENT: "${current}"
+    
+    REQUIREMENTS:
+    1. Transform the content to be more impactful, quantifiable, and aligned with industry standards
+    2. Use strong action verbs at the beginning of phrases
+    3. Include specific metrics and measurable results where appropriate (percentages, numbers, etc.)
+    4. Highlight relevant technical skills for the ${user.industry} industry
+    5. Keep the content concise yet detailed and professional
+    6. Focus on achievements and outcomes rather than just responsibilities
+    7. Incorporate industry-specific keywords that would perform well in ATS systems
+    8. Maintain the same general information but enhance the presentation
+    
+    FORMAT: Return ONLY the improved content as a single paragraph without any additional explanations, 
+    comments, or formatting. Do not include phrases like "Improved version:" or any other metadata.
   `;
 
   try {
-    const result = await model.generateContent(prompt);
-    const response = result.response;
-    const improvedContent = response.text().trim();
+    const improvedContent = await generateWithDeepSeek(prompt);
+
     return improvedContent;
   } catch (error) {
     console.error("Error improving content:", error);
