@@ -1,3 +1,4 @@
+// Keep this as a server component
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -5,7 +6,8 @@ import { getCoverLetter } from "@/actions/cover-letter";
 import CoverLetterPreview from "../_components/cover-letter-preview";
 
 export default async function EditCoverLetterPage({ params }) {
-  const { id } = await params;
+  // Use await here to unwrap the Promise
+  const id = params.id;
   const coverLetter = await getCoverLetter(id);
 
   return (
@@ -23,7 +25,10 @@ export default async function EditCoverLetterPage({ params }) {
         </h1>
       </div>
 
-      <CoverLetterPreview content={coverLetter?.content} />
+      <CoverLetterPreview
+        content={coverLetter?.content}
+        id={coverLetter?.id}
+      />
     </div>
   );
 }
