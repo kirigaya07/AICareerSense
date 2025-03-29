@@ -1,6 +1,6 @@
 # 🚀 AspireAI - AI-Powered Career Development Platform
 
-![AspireAI Logo](https://via.placeholder.com/150x50?text=AspireAI)
+![AspireAI Logo](https://github.com/kirigaya07/AICareerSense/blob/master/public/logo.png)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Next.js](https://img.shields.io/badge/Next.js-15-blue?logo=next.js)](https://nextjs.org/)
@@ -121,7 +121,7 @@ RAZORPAY_KEY_SECRET=your_razorpay_key_secret
 
 ### 📦 Installation
 
-1.  Clone the Repository
+1. Clone the Repository
 ```bash
 git clone https://github.com/kirigaya07/AICareerSense.git
 cd aspireai
@@ -161,7 +161,7 @@ aspireai/
 
 ---
 ### 🛠 Contributing
-We loves Contributions!❤️
+We love Contributions! ❤️
 1. Fork the repository
 2. Create your feature branch
 ```bash
