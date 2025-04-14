@@ -7,12 +7,12 @@ import { generateWithDeepSeek } from "@/lib/deepseek";
 export const generateAIInsights = async (industry) => {
   // Construct a structured prompt to generate industry-specific insights in JSON format
   const prompt = `
-  TASK: Generate a detailed analysis of the current state of the ${industry} industry in JSON format.
+  TASK: Generate a detailed analysis of the ${industry} industry in India using ONLY Glassdoor's latest data in JSON format.
 
   OUTPUT FORMAT: Return ONLY the following JSON structure without ANY explanatory text, markdown formatting, or code block delimiters:
   {
     "salaryRanges": [
-      { "role": "string", "min": number, "max": number, "median": number, "location": "string" }
+      { "role": "string", "min": number, "max": number, "median": number, "location": "India" }
     ],
     "growthRate": number,
     "demandLevel": "HIGH" | "MEDIUM" | "LOW",
@@ -23,21 +23,35 @@ export const generateAIInsights = async (industry) => {
   }
 
   REQUIREMENTS:
-  1. "salaryRanges" MUST contain EXACTLY 5 of the most in-demand roles in the ${industry} industry with realistic salary figures in USD
-  2. For each role, provide accurate min, max, and median salaries based on current market data
-  3. "growthRate" MUST be a numeric percentage value (e.g., 5.7 for 5.7% growth) reflecting annual industry growth
-  4. "demandLevel" MUST be one of: "HIGH", "MEDIUM", or "LOW" based on current hiring trends
-  5. "topSkills" MUST list EXACTLY 5 most valuable technical skills for ${industry} professionals today
-  6. "marketOutlook" MUST be one of: "POSITIVE", "NEUTRAL", or "NEGATIVE" based on comprehensive industry forecast
-  7. "keyTrends" MUST list EXACTLY 5 current technological or business trends shaping the ${industry}
-  8. "recommendedSkills" MUST list EXACTLY 5 emerging skills that will be valuable in the next 1-2 years
+  1. "salaryRanges" MUST contain EXACTLY 5 of the most in-demand roles in the ${industry} industry with:
+     - Salaries in thousands for India
+     - Accurate min, max, and median figures from Glassdoor
+     - Example: { "role": "Data Scientist", "min": 8, "max": 25, "median": 15, "location": "India" }
+
+  2. "growthRate" MUST be a numeric percentage value (e.g., 8.2 for 8.2% growth) from Glassdoor industry reports
+
+  3. "demandLevel" MUST be one of:
+     - "HIGH" (50,000+ job postings on Glassdoor)
+     - "MEDIUM" (20,000-50,000 postings)
+     - "LOW" (<20,000 postings)
+
+  4. "topSkills" MUST list EXACTLY 5 most valuable technical skills from Glassdoor job postings
+
+  5. "marketOutlook" MUST be one of: "POSITIVE", "NEUTRAL", or "NEGATIVE" based on Glassdoor's industry forecast
+
+  6. "keyTrends" MUST list EXACTLY 5 current trends from Glassdoor industry reports
+
+  7. "recommendedSkills" MUST list EXACTLY 5 emerging skills from Glassdoor's future-jobs data
 
   VALIDATION:
-  - All strings must be properly quoted
-  - All arrays must have exactly 5 elements
+  - All strings must be properly double-quoted ("string")
+  - All arrays must have exactly 5 elements (no more, no less)
   - No comments, explanations, or formatting outside the JSON structure
   - Numbers must be actual numbers without quotation marks
-  - Ensure all JSON syntax is valid with correct use of commas, brackets, and quotes
+  - Ensure all JSON syntax is valid:
+     - Correct use of commas (no trailing commas)
+     - Proper matching of brackets and braces
+     - No trailing whitespace or special characters
 `;
 
   try {
