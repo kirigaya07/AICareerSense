@@ -39,7 +39,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 
 // Animate numbers on load
-const AnimatedValue = ({ value, prefix = "", suffix = "", duration = 1000, decimals = 0 }) => {
+const AnimatedValue = ({
+  value,
+  prefix = "",
+  suffix = "",
+  duration = 1000,
+  decimals = 0,
+}) => {
   const [displayValue, setDisplayValue] = useState(0);
 
   useEffect(() => {
@@ -64,7 +70,9 @@ const AnimatedValue = ({ value, prefix = "", suffix = "", duration = 1000, decim
 
   return (
     <span>
-      {prefix}{displayValue.toLocaleString()}{suffix}
+      {prefix}
+      {displayValue.toLocaleString()}
+      {suffix}
     </span>
   );
 };
@@ -86,7 +94,9 @@ const CustomTooltip = ({ active, payload, label }) => {
                   className="h-3 w-3 rounded"
                   style={{ backgroundColor: item.fill }}
                 />
-                <span className="text-muted-foreground">{item.name.replace(' (K)', '')}:</span>
+                <span className="text-muted-foreground">
+                  {item.name.replace(" (K)", "")}:
+                </span>
               </div>
               <span className="font-medium">₹{item.value}LPA</span>
             </div>
@@ -99,7 +109,16 @@ const CustomTooltip = ({ active, payload, label }) => {
 };
 
 // Updated StatCard with expandable skills section
-const StatCard = ({ title, value, icon: Icon, color, secondaryValue, footer, classNames = {}, skills = [] }) => {
+const StatCard = ({
+  title,
+  value,
+  icon: Icon,
+  color,
+  secondaryValue,
+  footer,
+  classNames = {},
+  skills = [],
+}) => {
   // Add state to track if skills are expanded
   const [skillsExpanded, setSkillsExpanded] = useState(false);
 
@@ -107,28 +126,48 @@ const StatCard = ({ title, value, icon: Icon, color, secondaryValue, footer, cla
   const isSkillsCard = title === "Top Skills" && skills.length > 0;
 
   return (
-    <Card className={cn("overflow-hidden transition-all hover:shadow-md", classNames.card)}>
-      <CardHeader className={cn("flex flex-row items-center justify-between space-y-0 pb-2", classNames.header)}>
+    <Card
+      className={cn(
+        "overflow-hidden transition-all hover:shadow-md",
+        classNames.card
+      )}
+    >
+      <CardHeader
+        className={cn(
+          "flex flex-row items-center justify-between space-y-0 pb-2",
+          classNames.header
+        )}
+      >
         <CardTitle className="text-sm font-medium">{title}</CardTitle>
-        <Icon className={cn(`h-4 w-4 ${color || "text-muted-foreground"}`, classNames.icon)} />
+        <Icon
+          className={cn(
+            `h-4 w-4 ${color || "text-muted-foreground"}`,
+            classNames.icon
+          )}
+        />
       </CardHeader>
       <CardContent className={classNames.content}>
         <div className={cn("text-2xl font-bold", classNames.value)}>
-          {typeof value === 'number' ?
-            <AnimatedValue value={value} suffix={title === "Industry Growth" ? "%" : ""} decimals={title === "Industry Growth" ? 1 : 0} /> :
-            value}
+          {typeof value === "number" ? (
+            <AnimatedValue
+              value={value}
+              suffix={title === "Industry Growth" ? "%" : ""}
+              decimals={title === "Industry Growth" ? 1 : 0}
+            />
+          ) : (
+            value
+          )}
         </div>
 
         {/* Skills display section */}
         {isSkillsCard && (
           <div className="flex flex-wrap gap-1 mt-2">
             {/* Show all skills if expanded, otherwise only show first 3 */}
-            {(skillsExpanded ? skills : skills.slice(0, 3))
-              .map((skill) => (
-                <Badge key={skill} variant="secondary" className="text-xs">
-                  {skill}
-                </Badge>
-              ))}
+            {(skillsExpanded ? skills : skills.slice(0, 3)).map((skill) => (
+              <Badge key={skill} variant="secondary" className="text-xs">
+                {skill}
+              </Badge>
+            ))}
 
             {/* Toggle button */}
             {skills.length > 3 && (
@@ -144,11 +183,7 @@ const StatCard = ({ title, value, icon: Icon, color, secondaryValue, footer, cla
         )}
 
         {/* For non-skills cards with secondary value */}
-        {!isSkillsCard && (
-          <div className="mt-2">
-            {secondaryValue}
-          </div>
-        )}
+        {!isSkillsCard && <div className="mt-2">{secondaryValue}</div>}
       </CardContent>
       <CardFooter className="pt-0 pb-3 px-6 text-xs text-muted-foreground">
         {footer}
@@ -211,7 +246,9 @@ const DashboardView = ({ insights }) => {
       {/* Header section with info and tabs */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b pb-4">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Market Dashboard</h1>
+          <h1 className="text-2xl font-bold tracking-tight">
+            Market Dashboard
+          </h1>
           <p className="text-muted-foreground">
             Industry insights and career analytics for your field
           </p>
@@ -228,7 +265,12 @@ const DashboardView = ({ insights }) => {
         </div>
       </div>
 
-      <Tabs defaultValue="overview" value={activeTab} onValueChange={setActiveTab} className="w-full">
+      <Tabs
+        defaultValue="overview"
+        value={activeTab}
+        onValueChange={setActiveTab}
+        className="w-full"
+      >
         <TabsList className="grid grid-cols-2 max-w-[400px] mb-6">
           <TabsTrigger value="overview">Market Overview</TabsTrigger>
           <TabsTrigger value="trends">Skills & Trends</TabsTrigger>
@@ -249,12 +291,16 @@ const DashboardView = ({ insights }) => {
                     {insights.marketOutlook === "POSITIVE"
                       ? "Growing market"
                       : insights.marketOutlook === "NEGATIVE"
-                        ? "Contracting market"
-                        : "Stable market"}
+                      ? "Contracting market"
+                      : "Stable market"}
                   </span>
                 </div>
               }
-              footer={<div className="flex items-center gap-1"><Clock className="h-3 w-3" /> Next update {nextUpdateDistance}</div>}
+              footer={
+                <div className="flex items-center gap-1">
+                  <Clock className="h-3 w-3" /> Next update {nextUpdateDistance}
+                </div>
+              }
             />
 
             <StatCard
@@ -270,7 +316,11 @@ const DashboardView = ({ insights }) => {
               footer={
                 <div className="flex items-center gap-1">
                   <ArrowUpRight className="h-3 w-3" />
-                  {insights.growthRate > 5 ? "Strong growth" : insights.growthRate > 2 ? "Moderate growth" : "Slow growth"}
+                  {insights.growthRate > 5
+                    ? "Strong growth"
+                    : insights.growthRate > 2
+                    ? "Moderate growth"
+                    : "Slow growth"}
                 </div>
               }
             />
@@ -283,11 +333,15 @@ const DashboardView = ({ insights }) => {
                 insights.demandLevel === "HIGH"
                   ? "text-green-500"
                   : insights.demandLevel === "MEDIUM"
-                    ? "text-yellow-500"
-                    : "text-red-500"
+                  ? "text-yellow-500"
+                  : "text-red-500"
               }
               secondaryValue={
-                <div className={`h-2 w-full rounded-full mt-2 ${getDemandLevelColor(insights.demandLevel)}`} />
+                <div
+                  className={`h-2 w-full rounded-full mt-2 ${getDemandLevelColor(
+                    insights.demandLevel
+                  )}`}
+                />
               }
               footer={
                 <div className="flex items-center gap-1">
@@ -295,8 +349,8 @@ const DashboardView = ({ insights }) => {
                   {insights.demandLevel === "HIGH"
                     ? "High demand for roles"
                     : insights.demandLevel === "MEDIUM"
-                      ? "Balanced job market"
-                      : "Competitive job market"}
+                    ? "Balanced job market"
+                    : "Competitive job market"}
                 </div>
               }
             />
@@ -337,17 +391,21 @@ const DashboardView = ({ insights }) => {
                     barCategoryGap="15%"
                     margin={{ top: 10, right: 10, left: 10, bottom: 10 }}
                   >
-                    <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" vertical={false} />
+                    <CartesianGrid
+                      strokeDasharray="3 3"
+                      stroke="#e2e8f0"
+                      vertical={false}
+                    />
                     <XAxis
                       dataKey="name"
                       axisLine={false}
                       tickLine={false}
-                      tick={{ fill: '#64748b', fontSize: 12 }}
+                      tick={{ fill: "#64748b", fontSize: 12 }}
                     />
                     <YAxis
                       axisLine={false}
                       tickLine={false}
-                      tick={{ fill: '#64748b', fontSize: 12 }}
+                      tick={{ fill: "#64748b", fontSize: 12 }}
                       tickFormatter={(value) => `₹${value}LPA`}
                     />
                     <Tooltip content={<CustomTooltip />} />
@@ -406,7 +464,9 @@ const DashboardView = ({ insights }) => {
                     <li key={index} className="flex gap-3 items-start group">
                       <div className="relative">
                         <div className="h-6 w-6 rounded-full bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center mt-0.5 group-hover:bg-blue-200 transition-colors">
-                          <span className="text-blue-700 dark:text-blue-400 text-sm font-medium">{index + 1}</span>
+                          <span className="text-blue-700 dark:text-blue-400 text-sm font-medium">
+                            {index + 1}
+                          </span>
                         </div>
                         {index < insights.keyTrends.length - 1 && (
                           <div className="absolute top-6 bottom-0 left-1/2 w-0.5 -ml-[1px] h-full bg-blue-100 dark:bg-blue-900/30" />
@@ -463,21 +523,42 @@ const DashboardView = ({ insights }) => {
                   <p className="text-muted-foreground leading-relaxed">
                     {insights.demandLevel === "HIGH" ? (
                       <>
-                        The market currently shows <span className="font-medium text-green-600 dark:text-green-400">strong demand</span> with
-                        a growth rate of <span className="font-medium">{insights.growthRate}%</span>. Companies
-                        are actively hiring and expanding their teams.
+                        The market currently shows{" "}
+                        <span className="font-medium text-green-600 dark:text-green-400">
+                          strong demand
+                        </span>{" "}
+                        with a growth rate of{" "}
+                        <span className="font-medium">
+                          {insights.growthRate}%
+                        </span>
+                        . Companies are actively hiring and expanding their
+                        teams.
                       </>
                     ) : insights.demandLevel === "MEDIUM" ? (
                       <>
-                        The market currently shows <span className="font-medium text-yellow-600 dark:text-yellow-400">moderate demand</span> with
-                        a growth rate of <span className="font-medium">{insights.growthRate}%</span>. Job openings
-                        remain stable with selective hiring in key areas.
+                        The market currently shows{" "}
+                        <span className="font-medium text-yellow-600 dark:text-yellow-400">
+                          moderate demand
+                        </span>{" "}
+                        with a growth rate of{" "}
+                        <span className="font-medium">
+                          {insights.growthRate}%
+                        </span>
+                        . Job openings remain stable with selective hiring in
+                        key areas.
                       </>
                     ) : (
                       <>
-                        The market currently shows <span className="font-medium text-red-600 dark:text-red-400">limited demand</span> with
-                        a growth rate of <span className="font-medium">{insights.growthRate}%</span>. Competition
-                        for positions is high with selective hiring processes.
+                        The market currently shows{" "}
+                        <span className="font-medium text-red-600 dark:text-red-400">
+                          limited demand
+                        </span>{" "}
+                        with a growth rate of{" "}
+                        <span className="font-medium">
+                          {insights.growthRate}%
+                        </span>
+                        . Competition for positions is high with selective
+                        hiring processes.
                       </>
                     )}
                   </p>
