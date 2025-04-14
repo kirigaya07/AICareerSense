@@ -6,8 +6,8 @@ import { getCoverLetter } from "@/actions/cover-letter";
 import CoverLetterPreview from "../_components/cover-letter-preview";
 
 export default async function EditCoverLetterPage({ params }) {
-  // Use await here to unwrap the Promise
-  const id = params.id;
+  // Await the params object before accessing its properties
+  const { id } = await params;
   const coverLetter = await getCoverLetter(id);
 
   return (
@@ -25,10 +25,7 @@ export default async function EditCoverLetterPage({ params }) {
         </h1>
       </div>
 
-      <CoverLetterPreview
-        content={coverLetter?.content}
-        id={coverLetter?.id}
-      />
+      <CoverLetterPreview content={coverLetter?.content} id={coverLetter?.id} />
     </div>
   );
 }
