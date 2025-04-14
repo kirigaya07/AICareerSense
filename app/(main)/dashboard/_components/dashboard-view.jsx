@@ -88,7 +88,7 @@ const CustomTooltip = ({ active, payload, label }) => {
                 />
                 <span className="text-muted-foreground">{item.name.replace(' (K)', '')}:</span>
               </div>
-              <span className="font-medium">${item.value}K</span>
+              <span className="font-medium">₹{item.value}LPA</span>
             </div>
           ))}
         </div>
@@ -162,9 +162,9 @@ const DashboardView = ({ insights }) => {
 
   const salaryData = insights.salaryRanges.map((range) => ({
     name: range.role,
-    min: range.min / 1000,
-    max: range.max / 1000,
-    median: range.median / 1000,
+    min: range.min,
+    max: range.max,
+    median: range.median,
   }));
 
   const barColors = ["#94a3b8", "#3b82f6", "#475569"];
@@ -321,7 +321,7 @@ const DashboardView = ({ insights }) => {
               <div className="flex items-center justify-between">
                 <CardTitle>Salary Ranges by Role</CardTitle>
                 <Badge variant="secondary" className="text-xs font-normal">
-                  Values in $K
+                  Values in ₹LPA
                 </Badge>
               </div>
               <CardDescription>
@@ -348,27 +348,27 @@ const DashboardView = ({ insights }) => {
                       axisLine={false}
                       tickLine={false}
                       tick={{ fill: '#64748b', fontSize: 12 }}
-                      tickFormatter={(value) => `$${value}K`}
+                      tickFormatter={(value) => `₹${value}LPA`}
                     />
                     <Tooltip content={<CustomTooltip />} />
                     <Bar
                       dataKey="min"
                       fill={barColors[0]}
-                      name="Min Salary (K)"
+                      name="Min Salary (LPA)"
                       radius={[4, 4, 0, 0]}
                       maxBarSize={40}
                     />
                     <Bar
                       dataKey="median"
                       fill={barColors[1]}
-                      name="Median Salary (K)"
+                      name="Median Salary (LPA)"
                       radius={[4, 4, 0, 0]}
                       maxBarSize={40}
                     />
                     <Bar
                       dataKey="max"
                       fill={barColors[2]}
-                      name="Max Salary (K)"
+                      name="Max Salary (LPA)"
                       radius={[4, 4, 0, 0]}
                       maxBarSize={40}
                     />
@@ -377,7 +377,7 @@ const DashboardView = ({ insights }) => {
               </div>
             </CardContent>
             <CardFooter className="border-t pt-4 flex justify-between text-xs text-muted-foreground">
-              <div>Data source: National industry statistics</div>
+              <div>Data source: Glassdoor Community</div>
               <div>Updated {lastUpdatedDate}</div>
             </CardFooter>
           </Card>
