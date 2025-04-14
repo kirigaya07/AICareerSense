@@ -2,11 +2,8 @@
 
 import { db } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
-// import { GoogleGenerativeAI } from "@google/generative-ai";
 import { generateWithDeepSeek } from "@/lib/deepseek";
-
-// const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-// const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+import { trackDeepSeekUsage } from "@/lib/ai-helpers";
 
 export async function generateQuiz() {
   const { userId } = await auth();
@@ -26,7 +23,9 @@ export async function generateQuiz() {
     const prompt = `
     You are a technical interviewer for a ${user.industry} role.
     
-    Generate 10 challenging technical interview questions for a candidate ${user.skills?.length ? `with expertise in ${user.skills.join(", ")}` : ""}.
+    Generate 2 challenging technical interview questions for a candidate ${
+      user.skills?.length ? `with expertise in ${user.skills.join(", ")}` : ""
+    }.
     
     Requirements:
     - Each question must be multiple choice with exactly 4 options (A, B, C, D)
@@ -52,6 +51,13 @@ export async function generateQuiz() {
     const cleanedText = text.replace(/```(?:json)?\n?/g, "").trim();
     const quiz = JSON.parse(cleanedText);
 
+    await trackDeepSeekUsage(
+      prompt,
+      text,
+      "interview",
+      "Generated interview questions"
+    );
+
     return quiz.questions;
   } catch (error) {
     console.error("Error generating quiz:", error);
@@ -73,7 +79,7 @@ export async function saveQuizResult(questions, answers, score) {
     question: q.question,
     answer: q.correctAnswer,
     userAnswer: answers[index],
-    isCorrect: q.correctAnswer === answers[index],
+    isCorrect: answers[index] === q.correctAnswer,
     explanation: q.explanation,
   }));
 
@@ -114,7 +120,8 @@ export async function saveQuizResult(questions, answers, score) {
     } catch (error) {
       console.error("Error generating improvement tip:", error);
       // Provide a fallback improvement tip if generation fails
-      improvementTip = "Consider reviewing fundamental concepts in your field. Regular practice will help strengthen your knowledge.";
+      improvementTip =
+        "Consider reviewing fundamental concepts in your field. Regular practice will help strengthen your knowledge.";
     }
   }
 

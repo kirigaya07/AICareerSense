@@ -3,7 +3,7 @@
 import { db } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
 import { generateWithDeepSeek } from "@/lib/deepseek";
-import { trackAIUsage } from "@/lib/ai-helpers";
+import { trackDeepSeekUsage } from "@/lib/ai-helpers";
 
 export async function generateCoverLetter(data) {
   const { userId } = await auth();
@@ -16,8 +16,9 @@ export async function generateCoverLetter(data) {
   if (!user) throw new Error("User not found");
 
   const prompt = `
-    Write a professional cover letter for a ${data.jobTitle} position at ${data.companyName
-    }.
+    Write a professional cover letter for a ${data.jobTitle} position at ${
+    data.companyName
+  }.
     
     About the candidate:
     - Industry: ${user.industry}
@@ -41,15 +42,21 @@ export async function generateCoverLetter(data) {
   `;
 
   try {
-    // Use trackAIUsage instead of direct consumeTokens
-    await trackAIUsage(
+    // Generate content first
+    const content = await generateWithDeepSeek(prompt);
+
+    // Verify content was generated properly
+    if (!content) throw new Error("Failed to generate content");
+
+    // Then track token usage with actual input and output
+    await trackDeepSeekUsage(
+      prompt,
+      content,
       "cover_letter",
       `Generated Cover Letter for ${data.companyName}`
     );
 
-    // Replace Gemini with DeepSeek
-    const content = await generateWithDeepSeek(prompt);
-
+    // Create the cover letter in database
     const coverLetter = await db.coverLetter.create({
       data: {
         content,

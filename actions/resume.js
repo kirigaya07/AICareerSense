@@ -4,6 +4,7 @@ import { db } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
 import { generateWithDeepSeek } from "@/lib/deepseek";
 import { revalidatePath } from "next/cache";
+import { trackDeepSeekUsage } from "@/lib/ai-helpers";
 
 export async function saveResume(content) {
   const { userId } = await auth();
@@ -88,6 +89,12 @@ export async function improveWithAI({ current, type }) {
 
   try {
     const improvedContent = await generateWithDeepSeek(prompt);
+    trackDeepSeekUsage(
+      prompt,
+      improvedContent,
+      "resume_improvement",
+      `Improved ${type} description for ${user.industry} professional`
+    );
 
     return improvedContent;
   } catch (error) {
