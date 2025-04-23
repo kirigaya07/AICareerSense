@@ -23,7 +23,7 @@ export async function generateQuiz() {
     const prompt = `
     You are a technical interviewer for a ${user.industry} role.
     
-    Generate 2 challenging technical interview questions for a candidate ${
+    Generate 10 challenging technical interview questions for a candidate ${
       user.skills?.length ? `with expertise in ${user.skills.join(", ")}` : ""
     }.
     
