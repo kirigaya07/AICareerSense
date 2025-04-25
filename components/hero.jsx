@@ -55,7 +55,7 @@ const HeroSection = () => {
         <div className="hero-image-wrapper mt-5 md:mt-0">
           <div ref={imageRef} className="hero-image">
             <Image
-              src="/banner.jpeg"
+              src="https://res.cloudinary.com/ddq4io1nj/image/upload/f_auto,q_auto/khvbnbo2gnribhbegnqv"
               width={1280}
               height={720}
               alt="Dashboard Preview"
