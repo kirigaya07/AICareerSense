@@ -16,7 +16,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <script
           async
@@ -31,12 +31,9 @@ export default function RootLayout({ children }) {
             enableSystem
             disableTransitionOnChange
           >
-            {/* header */}
             <Header />
-            <main className="min-h-screen"> {children}</main>
+            <main className="min-h-screen">{children}</main>
             <Toaster richColors />
-
-            {/* footer */}
             <Footer />
           </ThemeProvider>
         </ClerkProvider>
