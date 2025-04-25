@@ -31,7 +31,9 @@ export default function StatsCards({ assessments }) {
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold text-primary">{averageScore}%</div>
-          <p className="text-xs text-muted-foreground">Across all assessments</p>
+          <p className="text-xs text-muted-foreground">
+            Across all assessments
+          </p>
         </CardContent>
       </Card>
 
@@ -44,7 +46,9 @@ export default function StatsCards({ assessments }) {
           <Brain className="h-5 w-5 text-blue-500 animate-pulse" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold text-primary">{totalQuestions}</div>
+          <div className="text-2xl font-bold text-primary">
+            {totalQuestions}
+          </div>
           <p className="text-xs text-muted-foreground">Total questions</p>
         </CardContent>
       </Card>

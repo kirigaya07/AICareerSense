@@ -271,4 +271,4 @@ export function EntryForm({ type, entries, onChange }) {
       )}
     </div>
   );
-} 
+}

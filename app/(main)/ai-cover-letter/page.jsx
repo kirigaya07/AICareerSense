@@ -5,10 +5,7 @@ import DelayedLoader from "@/components/delayed-loader";
 
 export default function CoverLetterPage() {
   return (
-    <DelayedLoader
-      delay={5000}
-      fallback={<CoverLetterLoader />}
-    >
+    <DelayedLoader delay={5000} fallback={<CoverLetterLoader />}>
       <CoverLetterContent />
     </DelayedLoader>
   );

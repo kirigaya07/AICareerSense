@@ -21,24 +21,41 @@ const InterviewLoader = () => {
 
         {/* Secondary card (offset) */}
         <div className="absolute inset-0 rounded-md border-2 border-indigo-300 dark:border-indigo-700 animate-pulse bg-white dark:bg-gray-800 shadow-md -rotate-6 -translate-x-3 -translate-y-3">
-          <div className="absolute top-3 left-1/2 -translate-x-1/2 text-4xl font-bold text-indigo-400 dark:text-indigo-500 animate-pulse" style={{ animationDelay: '0.2s' }}>
+          <div
+            className="absolute top-3 left-1/2 -translate-x-1/2 text-4xl font-bold text-indigo-400 dark:text-indigo-500 animate-pulse"
+            style={{ animationDelay: "0.2s" }}
+          >
             ?
           </div>
         </div>
 
         {/* Third card (offset in other direction) */}
         <div className="absolute inset-0 rounded-md border-2 border-purple-300 dark:border-purple-700 animate-pulse bg-white dark:bg-gray-800 shadow-md rotate-12 translate-x-3 -translate-y-1">
-          <div className="absolute top-3 left-1/2 -translate-x-1/2 text-4xl font-bold text-purple-400 dark:text-purple-500 animate-pulse" style={{ animationDelay: '0.4s' }}>
+          <div
+            className="absolute top-3 left-1/2 -translate-x-1/2 text-4xl font-bold text-purple-400 dark:text-purple-500 animate-pulse"
+            style={{ animationDelay: "0.4s" }}
+          >
             ?
           </div>
         </div>
 
         {/* Graduation cap icon */}
         <div className="absolute -right-4 -bottom-4 w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center shadow-md">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6 text-white"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
             <path d="M12 14l9-5-9-5-9 5 9 5z" />
             <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222"
+            />
           </svg>
         </div>
       </div>
@@ -79,9 +96,15 @@ const InterviewLoader = () => {
         <p className="text-lg font-medium text-gray-700 dark:text-gray-300 flex items-center justify-center">
           Loading Interview Prep
           <span className="inline-flex ml-1">
-            <span className="animate-bounce" style={{ animationDelay: '0s' }}>.</span>
-            <span className="animate-bounce" style={{ animationDelay: '0.2s' }}>.</span>
-            <span className="animate-bounce" style={{ animationDelay: '0.4s' }}>.</span>
+            <span className="animate-bounce" style={{ animationDelay: "0s" }}>
+              .
+            </span>
+            <span className="animate-bounce" style={{ animationDelay: "0.2s" }}>
+              .
+            </span>
+            <span className="animate-bounce" style={{ animationDelay: "0.4s" }}>
+              .
+            </span>
           </span>
         </p>
         <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">

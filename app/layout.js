@@ -1,4 +1,3 @@
-
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -19,7 +18,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        <script async src="https://checkout.razorpay.com/v1/checkout.js"></script>
+        <script
+          async
+          src="https://checkout.razorpay.com/v1/checkout.js"
+        ></script>
       </head>
       <body className={`${inter.className}`} suppressHydrationWarning>
         <ClerkProvider appearance={{ baseTheme: dark }}>

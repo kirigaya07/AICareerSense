@@ -50,7 +50,12 @@ const NavLink = ({ href, icon: Icon, children, active = false }) => (
       )}
     >
       <div className="flex items-center gap-2">
-        <Icon className={cn("h-4 w-4 transition-transform group-hover:scale-110", active && "text-primary")} />
+        <Icon
+          className={cn(
+            "h-4 w-4 transition-transform group-hover:scale-110",
+            active && "text-primary"
+          )}
+        />
         <span className="hidden md:block"> {children}</span>
       </div>
       {active && (
@@ -81,15 +86,21 @@ const ToolMenuItem = ({ href, icon: Icon, children, highlight = false }) => (
         highlight && "bg-primary/5"
       )}
     >
-      <div className={cn(
-        "flex items-center justify-center w-8 h-8 rounded-full",
-        highlight ? "bg-primary/10" : "bg-muted"
-      )}>
+      <div
+        className={cn(
+          "flex items-center justify-center w-8 h-8 rounded-full",
+          highlight ? "bg-primary/10" : "bg-muted"
+        )}
+      >
         <Icon className={cn("h-4 w-4", highlight && "text-primary")} />
       </div>
       <div className="flex flex-col">
         <span className="text-sm font-medium">{children}</span>
-        {highlight && <span className="text-xs text-muted-foreground">Enhanced with AI</span>}
+        {highlight && (
+          <span className="text-xs text-muted-foreground">
+            Enhanced with AI
+          </span>
+        )}
       </div>
     </Link>
   </DropdownMenuItem>
@@ -116,15 +127,14 @@ const Header = async () => {
                     <SheetTitle>Navigation</SheetTitle>
                   </SheetHeader>
                   <div className="flex flex-col gap-4">
-                    <SheetMenuItem
-                      href="/dashboard"
-                      icon={LayoutDashboard}
-                    >
+                    <SheetMenuItem href="/dashboard" icon={LayoutDashboard}>
                       Industry Insights
                     </SheetMenuItem>
 
                     <div className="border-t pt-4">
-                      <h3 className="text-sm font-medium text-muted-foreground mb-2 px-2">Growth Tools</h3>
+                      <h3 className="text-sm font-medium text-muted-foreground mb-2 px-2">
+                        Growth Tools
+                      </h3>
                       <div className="space-y-1">
                         <SheetMenuItem href="/resume" icon={FileText}>
                           Build Resume
@@ -155,7 +165,12 @@ const Header = async () => {
                   className="h-10 w-auto object-contain"
                 />
                 <div className="absolute -right-2 -top-1">
-                  <Badge variant="outline" className="text-[10px] px-1 py-0 h-auto bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-200 text-blue-700">BETA</Badge>
+                  <Badge
+                    variant="outline"
+                    className="text-[10px] px-1 py-0 h-auto bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-200 text-blue-700"
+                  >
+                    BETA
+                  </Badge>
                 </div>
               </div>
             </Link>
@@ -165,10 +180,7 @@ const Header = async () => {
             <SignedIn>
               {/* Desktop-only navigation items */}
               <div className="hidden md:flex items-center gap-2">
-                <NavLink
-                  href="/dashboard"
-                  icon={LayoutDashboard}
-                >
+                <NavLink href="/dashboard" icon={LayoutDashboard}>
                   Insights
                 </NavLink>
 
@@ -176,7 +188,9 @@ const Header = async () => {
                   <DropdownMenuTrigger asChild>
                     <Button className="gap-1.5 bg-gradient-to-r from-primary/90 to-primary hover:from-primary hover:to-primary/90 cursor-pointer">
                       <StarsIcon className="h-4 w-4 text-primary-foreground" />
-                      <span className="text-primary-foreground">Growth Tools</span>
+                      <span className="text-primary-foreground">
+                        Growth Tools
+                      </span>
                       <ChevronDown className="h-3.5 w-3.5 text-primary-foreground opacity-70" />
                     </Button>
                   </DropdownMenuTrigger>
@@ -189,10 +203,18 @@ const Header = async () => {
                       <ToolMenuItem href="/resume" icon={FileText} highlight>
                         Build Resume
                       </ToolMenuItem>
-                      <ToolMenuItem href="/ai-cover-letter" icon={PenBox} highlight>
+                      <ToolMenuItem
+                        href="/ai-cover-letter"
+                        icon={PenBox}
+                        highlight
+                      >
                         Cover Letter
                       </ToolMenuItem>
-                      <ToolMenuItem href="/interview" icon={GraduationCap} highlight>
+                      <ToolMenuItem
+                        href="/interview"
+                        icon={GraduationCap}
+                        highlight
+                      >
                         Interview Prep
                       </ToolMenuItem>
                       <DropdownMenuSeparator />
@@ -208,10 +230,19 @@ const Header = async () => {
             <SignedOut>
               <div className="flex items-center gap-3 pl-2">
                 <SignInButton asChild>
-                  <Button variant="ghost" size="sm" className="h-9 cursor-pointer">Sign In</Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-9 cursor-pointer"
+                  >
+                    Sign In
+                  </Button>
                 </SignInButton>
                 <SignUpButton asChild>
-                  <Button size="sm" className="h-9 bg-gradient-to-r from-primary/90 to-primary hover:from-primary hover:to-primary/90 cursor-pointer">
+                  <Button
+                    size="sm"
+                    className="h-9 bg-gradient-to-r from-primary/90 to-primary hover:from-primary hover:to-primary/90 cursor-pointer"
+                  >
                     Get Started
                   </Button>
                 </SignUpButton>

@@ -20,9 +20,9 @@ export const onboardingSchema = z.object({
   skills: z.string().transform((val) =>
     val
       ? val
-        .split(",")
-        .map((skill) => skill.trim())
-        .filter(Boolean)
+          .split(",")
+          .map((skill) => skill.trim())
+          .filter(Boolean)
       : undefined
   ),
 });

@@ -11,19 +11,32 @@ const ResumeLoader = () => {
         {/* Document outline animation */}
         <div className="absolute inset-0 rounded-md border-2 border-blue-300 dark:border-blue-700 animate-pulse">
           {/* Content lines animation */}
-          <div className="absolute left-3 top-3 right-3 h-2 bg-blue-200 dark:bg-blue-800 rounded animate-pulse"
-            style={{ animationDelay: '0.1s' }}></div>
-          <div className="absolute left-3 top-8 right-8 h-2 bg-blue-200 dark:bg-blue-800 rounded animate-pulse"
-            style={{ animationDelay: '0.2s' }}></div>
-          <div className="absolute left-3 top-13 right-5 h-2 bg-blue-200 dark:bg-blue-800 rounded animate-pulse"
-            style={{ animationDelay: '0.3s' }}></div>
-          <div className="absolute left-3 top-18 right-10 h-2 bg-blue-200 dark:bg-blue-800 rounded animate-pulse"
-            style={{ animationDelay: '0.4s' }}></div>
+          <div
+            className="absolute left-3 top-3 right-3 h-2 bg-blue-200 dark:bg-blue-800 rounded animate-pulse"
+            style={{ animationDelay: "0.1s" }}
+          ></div>
+          <div
+            className="absolute left-3 top-8 right-8 h-2 bg-blue-200 dark:bg-blue-800 rounded animate-pulse"
+            style={{ animationDelay: "0.2s" }}
+          ></div>
+          <div
+            className="absolute left-3 top-13 right-5 h-2 bg-blue-200 dark:bg-blue-800 rounded animate-pulse"
+            style={{ animationDelay: "0.3s" }}
+          ></div>
+          <div
+            className="absolute left-3 top-18 right-10 h-2 bg-blue-200 dark:bg-blue-800 rounded animate-pulse"
+            style={{ animationDelay: "0.4s" }}
+          ></div>
         </div>
 
         {/* Animated pen/pencil icon */}
         <div className="absolute -right-2 -top-2 w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center animate-bounce shadow-md">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-white" viewBox="0 0 20 20" fill="currentColor">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-4 w-4 text-white"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
             <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
           </svg>
         </div>
@@ -52,9 +65,15 @@ const ResumeLoader = () => {
         <p className="text-lg font-medium text-gray-700 dark:text-gray-300 flex items-center justify-center">
           Loading Resume Builder
           <span className="inline-flex ml-1">
-            <span className="animate-bounce" style={{ animationDelay: '0s' }}>.</span>
-            <span className="animate-bounce" style={{ animationDelay: '0.2s' }}>.</span>
-            <span className="animate-bounce" style={{ animationDelay: '0.4s' }}>.</span>
+            <span className="animate-bounce" style={{ animationDelay: "0s" }}>
+              .
+            </span>
+            <span className="animate-bounce" style={{ animationDelay: "0.2s" }}>
+              .
+            </span>
+            <span className="animate-bounce" style={{ animationDelay: "0.4s" }}>
+              .
+            </span>
           </span>
         </p>
         <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
@@ -73,10 +92,7 @@ const ResumePage = async () => {
   return (
     <div className="container mx-auto py-6">
       {/* LoadingWrapper will ensure the loading animation shows for at least 5 seconds */}
-      <LoadingWrapper
-        minLoadingTime={5000}
-        fallback={<ResumeLoader />}
-      >
+      <LoadingWrapper minLoadingTime={5000} fallback={<ResumeLoader />}>
         <ResumeBuilder initialContent={resume?.content} />
       </LoadingWrapper>
     </div>

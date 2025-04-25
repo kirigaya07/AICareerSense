@@ -24,19 +24,34 @@ const ThemedLoader = () => {
       <div className="relative w-16 h-16 mb-4">
         <div
           className="absolute inset-0 border-4 border-t-primary border-r-primary/70 border-b-primary/50 border-l-primary/30 rounded-full animate-spin"
-          style={{ animationDuration: '1.5s' }}
+          style={{ animationDuration: "1.5s" }}
         ></div>
         <div
           className="absolute inset-3 bg-gradient-to-tr from-primary to-primary/50 rounded-full opacity-75 animate-pulse"
-          style={{ animationDuration: '2s' }}
+          style={{ animationDuration: "2s" }}
         ></div>
         <div className="absolute inset-[38%] bg-background rounded-full shadow-md"></div>
       </div>
       <div className="flex space-x-1 items-center text-lg font-medium">
         <span className="text-foreground">Loading</span>
-        <span className="animate-bounce text-primary" style={{ animationDelay: '0s' }}>.</span>
-        <span className="animate-bounce text-primary" style={{ animationDelay: '0.2s' }}>.</span>
-        <span className="animate-bounce text-primary" style={{ animationDelay: '0.4s' }}>.</span>
+        <span
+          className="animate-bounce text-primary"
+          style={{ animationDelay: "0s" }}
+        >
+          .
+        </span>
+        <span
+          className="animate-bounce text-primary"
+          style={{ animationDelay: "0.2s" }}
+        >
+          .
+        </span>
+        <span
+          className="animate-bounce text-primary"
+          style={{ animationDelay: "0.4s" }}
+        >
+          .
+        </span>
       </div>
     </div>
   );
@@ -50,8 +65,8 @@ const WelcomeCard = ({ onStart }) => (
     </CardHeader>
     <CardContent>
       <p className="text-muted-foreground">
-        This quiz contains 10 questions specific to your industry and
-        skills. Take your time and choose the best answer for each question.
+        This quiz contains 10 questions specific to your industry and skills.
+        Take your time and choose the best answer for each question.
       </p>
     </CardContent>
     <CardFooter>
@@ -71,7 +86,9 @@ const QuestionOption = ({ option, index, isSelected, onSelect }) => (
       checked={isSelected}
       onClick={() => onSelect(option)}
     />
-    <Label htmlFor={`option-${index}`} className="cursor-pointer">{option}</Label>
+    <Label htmlFor={`option-${index}`} className="cursor-pointer">
+      {option}
+    </Label>
   </div>
 );
 
@@ -103,22 +120,26 @@ const Quiz = () => {
   }, [quizData]);
 
   // Memoized current question data
-  const currentQuestionData = useMemo(() =>
-    quizData && quizData[currentQuestion],
-    [quizData, currentQuestion]);
+  const currentQuestionData = useMemo(
+    () => quizData && quizData[currentQuestion],
+    [quizData, currentQuestion]
+  );
 
   // Memoized handlers
-  const handleAnswer = useCallback((answer) => {
-    setAnswers(prev => {
-      const newAnswers = [...prev];
-      newAnswers[currentQuestion] = answer;
-      return newAnswers;
-    });
-  }, [currentQuestion]);
+  const handleAnswer = useCallback(
+    (answer) => {
+      setAnswers((prev) => {
+        const newAnswers = [...prev];
+        newAnswers[currentQuestion] = answer;
+        return newAnswers;
+      });
+    },
+    [currentQuestion]
+  );
 
   const handleNext = useCallback(() => {
     if (quizData && currentQuestion < quizData.length - 1) {
-      setCurrentQuestion(prev => prev + 1);
+      setCurrentQuestion((prev) => prev + 1);
       setShowExplanation(false);
     } else {
       finishQuiz();
@@ -207,7 +228,9 @@ const Quiz = () => {
         {showExplanation && (
           <div className="mt-4 p-4 bg-muted rounded-lg">
             <p className="font-medium">Explanation:</p>
-            <p className="text-muted-foreground">{currentQuestionData.explanation}</p>
+            <p className="text-muted-foreground">
+              {currentQuestionData.explanation}
+            </p>
           </div>
         )}
       </CardContent>

@@ -7,9 +7,7 @@ const Layout = ({ children }) => {
       <div className="flex items-center justify-between mb-5">
         <h1 className="text-6xl font-bold gradient-title">Industry Insight</h1>
       </div>
-      <Suspense fallback={<DashboardLoader />}>
-        {children}
-      </Suspense>
+      <Suspense fallback={<DashboardLoader />}>{children}</Suspense>
     </div>
   );
 };
