@@ -124,7 +124,7 @@ const Header = async () => {
                 </SheetTrigger>
                 <SheetContent side="left">
                   <SheetHeader className="mb-6">
-                    <SheetTitle>Navigation</SheetTitle>
+                    <SheetTitle>Menu</SheetTitle>
                   </SheetHeader>
                   <div className="flex flex-col gap-4">
                     <SheetMenuItem href="/dashboard" icon={LayoutDashboard}>
