@@ -179,14 +179,7 @@ model Payment {
   @@index([userId])
 }
 
-// Model for feature token costs
-model FeatureCost {
-  id          String  @id @default(cuid())
-  featureName String  @unique
-  tokenCost   Int
-  description String?
-}
-
+// Enum for payment status
 enum PaymentStatus {
   PENDING
   COMPLETED
