@@ -14,7 +14,7 @@
 
 - [🔍 Overview](#-overview)
 - [✨ Features](#-features)
-- [🧠 AI Token System](#-ai-token-system)
+- [💎 AI Token System](#-ai-token-system)
 - [⚙️ Tech Stack](#-tech-stack)
 - [🚀 Getting Started](#-getting-started)
   - [🔧 Prerequisites](#-prerequisites)
@@ -29,43 +29,35 @@
 
 ## 🔍 Overview
 
-**AspireAI** is an advanced, AI-powered career development platform designed to guide users through every step of their professional journey. Whether you're crafting the perfect resume, preparing for interviews, or navigating industry shifts — AspireAI provides intelligent, real-time support and tools to supercharge your career.
+**AspireAI** is an advanced, AI-powered career development platform designed to guide users through every step of their professional journey. Whether you're crafting the perfect resume, preparing for interviews, or navigating industry shifts, AspireAI provides intelligent, real-time support and tools to supercharge your career.
 
 ---
 
 ## ✨ Features
 
-🔹 **AI-Powered Career Guidance**  
-Receive personalized career path suggestions and role-specific advice using cutting-edge AI algorithms.
+- **AI-Powered Career Guidance**  
+  Receive personalized career path suggestions and role-specific advice using cutting-edge AI algorithms.
 
-🔹 **Smart Resume Creation**  
-Generate ATS-optimized resumes with dynamic formatting and keyword suggestions to increase job match success.
+- **Smart Resume Creation**  
+  Generate ATS-optimized resumes with dynamic formatting and keyword suggestions to increase job match success.
 
-🔹 **Interview Preparation**  
-Practice realistic, role-based questions with real-time AI feedback and tips to improve your answers.
+- **Interview Preparation**  
+  Practice realistic, role-based questions with real-time AI feedback and tips to improve your answers.
 
-🔹 **Industry Insights**  
-Stay updated on salary trends, in-demand roles, skills, and hiring patterns relevant to your domain.
+- **Industry Insights**  
+  Stay updated on salary trends, in-demand roles, skills, and hiring patterns relevant to your domain.
 
-🔹 **Cover Letter Generation**  
-Instantly generate tailored cover letters specific to any job listing using AI prompts.
+- **Cover Letter Generation**  
+  Instantly generate tailored cover letters specific to any job listing using AI prompts.
 
-🔹 **Continuous Career Development**  
-Get learning path suggestions, course recommendations, and skill assessments to grow consistently.
+- **Continuous Career Development**  
+  Get learning path suggestions, course recommendations, and skill assessments to grow consistently.
 
 ---
 
 ## 💎 AI Token System
 
-AspireAI operates on a **credit-based token model** that powers all AI-driven features. This ensures fair usage and smooth scaling.
-
-| Feature                    | Token Cost |
-|---------------------------|------------|
-| Cover Letter Generation   | 100 tokens |
-| Resume Analysis           | 50 tokens  |
-| Interview Questions       | 75 tokens  |
-| Industry Insights         | 60 tokens  |
-| Career Advice             | 40 tokens  |
+AspireAI operates on a **credit-based token model** that powers all AI-driven features. Token costs are dynamically managed based on feature usage and system configuration, ensuring fair usage and scalability.
 
 🪙 **Tokens** can be earned via subscriptions or purchased directly through Razorpay.
 
@@ -117,32 +109,35 @@ GOOGLE_AI_API_KEY=your_google_ai_api_key
 RAZORPAY_KEY_ID=your_razorpay_key_id
 RAZORPAY_KEY_SECRET=your_razorpay_key_secret
 ```
+
 ---
 
 ### 📦 Installation
 
-1. Clone the Repository
-```bash
-git clone https://github.com/kirigaya07/AICareerSense.git
-cd aspireai
-```
-2. Install dependencies
-```bash
-npm install
-```
-3. Set up the database
-```bash
-npx prisma migrate dev
-npx prisma db seed
-```
-4. Start the development server
-```bash
-npm run dev
-```
-Visit `http://localhost:3000` in your browser to access the app.
+1. Clone the Repository:
+   ```bash
+   git clone https://github.com/kirigaya07/AICareerSense.git
+   cd aspireai
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Set up the database:
+   ```bash
+   npx prisma migrate dev
+   npx prisma db seed
+   ```
+4. Start the development server:
+   ```bash
+   npm run dev
+   ```
+   Visit `http://localhost:3000` in your browser to access the app.
 
 ---
+
 ### 📁 Project Structure
+
 ```bash
 aspireai/
 ├── app/                  # Next.js app directory
@@ -160,24 +155,36 @@ aspireai/
 ```
 
 ---
+
 ### 🛠 Contributing
-We love Contributions! ❤️
-1. Fork the repository
-2. Create your feature branch
-```bash
-git checkout -b feature/amazing-feature
-```
-3. Commit your changes
-```bash
-git commit -m "Add: amazing feature"
-```
-4. Push to the branch
-```bash
-git push origin feature/amazing-feature
-```
-5. Create a Pull Request
+
+We love contributions! ❤️
+
+1. Fork the repository.
+2. Create your feature branch:
+   ```bash
+   git checkout -b feature/amazing-feature
+   ```
+3. Commit your changes:
+   ```bash
+   git commit -m "Add: amazing feature"
+   ```
+4. Push to the branch:
+   ```bash
+   git push origin feature/amazing-feature
+   ```
+5. Create a Pull Request.
 
 Please make sure to follow the Code of Conduct and adhere to our contribution guidelines.
 
 ---
 
+### 🪪 License
+
+This project is licensed under the [MIT License](LICENSE).
+
+---
+
+### 📬 Contact
+
+For questions or feedback, feel free to reach out via [GitHub Issues](https://github.com/kirigaya07/AICareerSense/issues).
